@@ -44,4 +44,20 @@ function httpsGet (myData, callback) {
     path: '/api/characters/' + encodeURIComponent(myData),
     method: 'GET',
   };
+
+  var req = https.request(options, res => {
+      res.setEncoding('utf8');
+      var returnData = "";
+
+      res.on('data', chunk => {
+          returnData = returnData + chunk;
+      });
+
+      res.on.on('end', () => {
+          var pop = JSON.parse(returnData);
+          callback(pop);
+      });
+  });
+
+  req.end();
 }
