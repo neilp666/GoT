@@ -45,19 +45,19 @@ function httpsGet (myData, callback) {
     method: 'GET',
   };
 
-  var req = https.request(options, res => {
-      res.setEncoding('utf8');
-      var returnData = "";
+    var req = https.request(options, res => {
+        res.setEncoding('utf8');
+        var returnData = "";
 
-      res.on('data', chunk => {
-          returnData = returnData + chunk;
-      });
+        res.on('data', chunk => {
+            returnData = returnData + chunk;
+        });
 
-      res.on.on('end', () => {
-          var pop = JSON.parse(returnData);
-          callback(pop);
-      });
-  });
+        res.on.on('end', () => {
+            var pop = JSON.parse(returnData);
+            callback(pop);
+        });
+    });
 
   req.end();
 }
