@@ -1,9 +1,9 @@
-var Alexa = require('alexa-sdk');
+const Alexa = require('alexa-sdk');
 
 exports.handler = function(event, context, callback) {
   var alexa = Alexa.handler(event, context);
 
-  Alexa.dynamoDBTable = 'testGOT';
+  Alexa.dynamoDBTableName = 'testGOT';
 
   alexa.registerHandlers(handlers);
   alexa.execute();
@@ -18,6 +18,7 @@ var handlers = {
       this.emit(':ask', 'Welcome to the Game of Thrones Characters Skill! Please pick a random number from one to seven hundred to select a character');
   },
   'MyIntent': function() {
+
       var randomNumber = this.event.request.intent.slots.number.value;
       var myRequest = parseInt(randomNumber);
 
@@ -28,6 +29,7 @@ var handlers = {
           this.emit(':tell', `This Game of Thrones character is ${myResult.name} which also has the title of ${myResult.titles}`);
           this.attributes['character_name'] = myResult.name;
           this.attributes['character_title'] = myResult.titles;
+
           this.emit(':responseReady');
       }
     };
@@ -53,7 +55,7 @@ function httpsGet (myData, callback) {
             returnData = returnData + chunk;
         });
 
-        res.on.on('end', () => {
+        res.on('end', () => {
             var pop = JSON.parse(returnData);
             callback(pop);
         });
