@@ -3,7 +3,7 @@ var Alexa = require('alexa-sdk');
 exports.handler = function(event, context, callback) {
   var alexa = Alexa.handler(event, context);
 
-  Alexa.dynamoTable = 'testGOT';
+  Alexa.dynamoDBTable = 'testGOT';
 
   alexa.registerHandlers(handlers);
   alexa.execute();
@@ -21,14 +21,14 @@ var handlers = {
       var randomNumber = this.event.request.intent.slots.number.value;
       var myRequest = parseInt(randomNumber);
 
-      httpGet (myRequest, (myResult) => {
-        console.log("sent : " + myRequest);
-        console.log("received : " + myResult);
+      httpsGet (myRequest, (myResult) => {
+          console.log("sent     : " + myRequest);
+          console.log("received : " + myResult);
 
-        this.emit(':tell', 'This Game of Thrones character is ${myResult.name} which also has the title od ${myResult.titles}');
-        this.attributes['character_name'] = myResult.name;
-        this.attributes['character_title'] = myResult.titles;
-        this.emit(':responseReady');
+          this.emit(':tell', `This Game of Thrones character is ${myResult.name} which also has the title of ${myResult.titles}`);
+          this.attributes['character_name'] = myResult.name;
+          this.attributes['character_title'] = myResult.titles;
+          this.emit(':responseReady');
       }
     };
   }
